@@ -1,31 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
-const MovieForm = ({ getMovieList }) => {
+const AddMovie = ({ getMovieList }) => {
   const { push } = useHistory();
-  const { id } = useParams();
-  const [movie, setMovie] = useState({
+  const [formData, setFormData] = useState({
     title: '',
     director: '',
     metascore: '',
     stars: []
   });
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/movies/${id}`)
-      .then((res) => {
-        setMovie({ ...res.data, stars: res.data.stars.toString() });
-      })
-      .catch((err) => console.error(err.message, err.response));
-  }, [id]);
-
   const changeHandler = (e) => {
     e.persist();
 
-    setMovie({
-      ...movie,
+    setFormData({
+      ...formData,
       [e.target.name]: e.target.value
     });
   };
@@ -33,20 +23,24 @@ const MovieForm = ({ getMovieList }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .put(`http://localhost:5000/api/movies/${id}`, {
-        ...movie,
-        stars: movie.stars.split(',').map((item) => item.trim())
+      .post('http://localhost:5000/api/movies', {
+        title: formData.title,
+        director: formData.director,
+        metascore: formData.metascore,
+        stars: formData.stars.split(',').map((item) => item.trim())
       })
       .then((res) => {
         getMovieList();
-        push(`/`);
+        push('/');
       })
-      .catch((err) => console.error(err.message, err.response));
+      .catch((err) => {
+        console.err(err.message, err.response);
+      });
   };
 
   return (
     <>
-      <h3>Update Movie</h3>
+      <h3>AddMovie</h3>
       <form onSubmit={handleSubmit}>
         <label htmlFor='title'>
           Title:
@@ -54,7 +48,7 @@ const MovieForm = ({ getMovieList }) => {
             type='text'
             name='title'
             onChange={changeHandler}
-            value={movie.title}
+            value={formData.title}
           />
         </label>
         <label htmlFor='director'>
@@ -63,7 +57,7 @@ const MovieForm = ({ getMovieList }) => {
             type='text'
             name='director'
             onChange={changeHandler}
-            value={movie.director}
+            value={formData.director}
           />
         </label>
         <label htmlFor='metascore'>
@@ -72,7 +66,7 @@ const MovieForm = ({ getMovieList }) => {
             type='number'
             name='metascore'
             onChange={changeHandler}
-            value={movie.metascore}
+            value={formData.metascore}
           />
         </label>
         <label htmlFor='stars'>
@@ -81,13 +75,13 @@ const MovieForm = ({ getMovieList }) => {
             type='text'
             name='stars'
             onChange={changeHandler}
-            value={movie.stars}
+            value={formData.stars}
           />
         </label>
-        <button>update</button>
+        <button>add</button>
       </form>
     </>
   );
 };
 
-export default MovieForm;
+export default AddMovie;
