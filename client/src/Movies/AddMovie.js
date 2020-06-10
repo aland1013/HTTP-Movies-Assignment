@@ -1,6 +1,34 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import styled from 'styled-components';
+
+const H3 = styled.h3`
+  text-align: center;
+`;
+
+const Form = styled.form`
+  width: 50%;
+  margin: auto;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  margin-bottom: 15px;
+`;
+
+const Button = styled.button`
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 16px;
+  margin: auto;
+  cursor: pointer;
+`;
 
 const AddMovie = ({ getMovieList }) => {
   const { push } = useHistory();
@@ -40,11 +68,11 @@ const AddMovie = ({ getMovieList }) => {
 
   return (
     <>
-      <h3>AddMovie</h3>
-      <form onSubmit={handleSubmit}>
+      <H3>AddMovie</H3>
+      <Form onSubmit={handleSubmit}>
         <label htmlFor='title'>
           Title:
-          <input
+          <Input
             type='text'
             name='title'
             onChange={changeHandler}
@@ -53,7 +81,7 @@ const AddMovie = ({ getMovieList }) => {
         </label>
         <label htmlFor='director'>
           Director:
-          <input
+          <Input
             type='text'
             name='director'
             onChange={changeHandler}
@@ -62,7 +90,7 @@ const AddMovie = ({ getMovieList }) => {
         </label>
         <label htmlFor='metascore'>
           Metascore:
-          <input
+          <Input
             type='number'
             name='metascore'
             onChange={changeHandler}
@@ -71,15 +99,15 @@ const AddMovie = ({ getMovieList }) => {
         </label>
         <label htmlFor='stars'>
           Stars:
-          <input
+          <Input
             type='text'
             name='stars'
             onChange={changeHandler}
             value={formData.stars}
           />
         </label>
-        <button>add</button>
-      </form>
+        <Button>add</Button>
+      </Form>
     </>
   );
 };

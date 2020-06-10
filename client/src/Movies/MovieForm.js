@@ -1,6 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import axios from 'axios';
+import styled from 'styled-components';
+
+const H3 = styled.h3`
+  text-align: center;
+`;
+
+const Form = styled.form`
+  width: 50%;
+  margin: auto;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  margin-bottom: 15px;
+`;
+
+const Button = styled.button`
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 16px;
+  margin: auto;
+  cursor: pointer;
+`;
 
 const MovieForm = ({ getMovieList }) => {
   const { push } = useHistory();
@@ -46,11 +74,11 @@ const MovieForm = ({ getMovieList }) => {
 
   return (
     <>
-      <h3>Update Movie</h3>
-      <form onSubmit={handleSubmit}>
+      <H3>Update Movie</H3>
+      <Form onSubmit={handleSubmit}>
         <label htmlFor='title'>
           Title:
-          <input
+          <Input
             type='text'
             name='title'
             onChange={changeHandler}
@@ -59,7 +87,7 @@ const MovieForm = ({ getMovieList }) => {
         </label>
         <label htmlFor='director'>
           Director:
-          <input
+          <Input
             type='text'
             name='director'
             onChange={changeHandler}
@@ -68,24 +96,25 @@ const MovieForm = ({ getMovieList }) => {
         </label>
         <label htmlFor='metascore'>
           Metascore:
-          <input
+          <Input
             type='number'
             name='metascore'
             onChange={changeHandler}
             value={movie.metascore}
           />
         </label>
+        <br />
         <label htmlFor='stars'>
           Stars:
-          <input
+          <Input
             type='text'
             name='stars'
             onChange={changeHandler}
             value={movie.stars}
           />
         </label>
-        <button>update</button>
-      </form>
+        <Button>update</Button>
+      </Form>
     </>
   );
 };
